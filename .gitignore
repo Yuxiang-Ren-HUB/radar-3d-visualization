@@ -1,3 +1,10 @@
 # build caches / intermediate artifacts (regeneratable, redundant with the *_final.html pages)
 _anim_volume_cache.npz
 plotly_fragment*.html
+
+# radar+NWP blending: gridded-data caches and raw ensemble arrays (regeneratable, 10s-100s of MB,
+# well over GitHub's per-file comfort zone -- the *.png/*.py results/scripts are what matter)
+_radar_hrrr_blend_cache.npz
+radar_hrrr_stepsblend_ensemble*.npy
+__pycache__/
+tmp/

@@ -1,0 +1,116 @@
+<style>
+  :root{
+    --bg:#0a0e14; --panel:#12181f; --border:#232b35;
+    --text:#d8e0e8; --text-muted:#6b7684;
+    --accent:#00d9ff; --accent-soft:#00d9ff17;
+    --warm:#ff8c3d; --warm-soft:#ff8c3d17;
+    --font-display:'Bahnschrift','Segoe UI Semibold','Segoe UI',sans-serif;
+    --font-body:'Segoe UI',system-ui,-apple-system,sans-serif;
+    --font-mono:'Consolas','SF Mono',Menlo,monospace;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#eef1f4; --panel:#ffffff; --border:#d7dde3;
+      --text:#141a20; --text-muted:#5b6672;
+      --accent:#0086a8; --accent-soft:#0086a80f;
+      --warm:#c4590f; --warm-soft:#c4590f10;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0e14; --panel:#12181f; --border:#232b35;
+    --text:#d8e0e8; --text-muted:#6b7684;
+    --accent:#00d9ff; --accent-soft:#00d9ff17;
+    --warm:#ff8c3d; --warm-soft:#ff8c3d17;
+  }
+  :root[data-theme="light"]{
+    --bg:#eef1f4; --panel:#ffffff; --border:#d7dde3;
+    --text:#141a20; --text-muted:#5b6672;
+    --accent:#0086a8; --accent-soft:#0086a80f;
+    --warm:#c4590f; --warm-soft:#c4590f10;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .topbar{
+    display:flex; align-items:baseline; justify-content:space-between;
+    flex-wrap:wrap; gap:12px;
+    padding:20px 28px; border-bottom:1px solid var(--border);
+    background:var(--panel);
+  }
+  .title-block{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+  h1{
+    font-family:var(--font-display); font-weight:700;
+    font-size:22px; margin:0; letter-spacing:.01em;
+  }
+  .subtitle{font-family:var(--font-mono); font-size:12.5px; color:var(--text-muted);}
+  .meta{
+    display:flex; gap:18px; flex-wrap:wrap;
+    font-family:var(--font-mono); font-size:12px; color:var(--text-muted);
+    font-variant-numeric:tabular-nums;
+  }
+  .meta b{color:var(--accent); font-weight:600;}
+
+  .stage{
+    padding:18px 18px 0;
+    max-width:1400px; margin:0 auto;
+  }
+  .plot-frame{
+    border:1px solid var(--border); border-radius:4px;
+    background:#0a0e14; overflow:hidden;
+  }
+  .hint{
+    display:flex; gap:22px; flex-wrap:wrap; justify-content:center;
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);
+    padding:12px 0 26px;
+  }
+  .hint span{display:flex; align-items:center; gap:6px;}
+  .hint b{color:var(--warm); font-weight:600;}
+
+  .footer-note{
+    max-width:900px; margin:0 auto; padding:0 28px 40px;
+    font-size:13.5px; color:var(--text-muted); line-height:1.7;
+  }
+  .footer-note b{color:var(--text);}
+</style>
+
+<div class="topbar">
+  <div class="title-block">
+    <h1>超级单体三维结构 · 时间演变动画</h1>
+    <span class="subtitle">SUPERCELL 3D REFLECTIVITY · TIME-ANIMATED VOLUME</span>
+  </div>
+  <div class="meta">
+    <span>个例 <b>Rolling Fork, MS</b></span>
+    <span>时段 <b>00:54–02:12 UTC</b></span>
+    <span>雷达 <b>KDGX</b></span>
+    <span>体扫数 <b>7</b></span>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="plot-frame">
+    {{PLOTLY_FRAGMENT}}
+  </div>
+  <div class="hint">
+    <span><b>播放/暂停</b> 左下角按钮</span>
+    <span><b>拖动滑块</b> 跳到指定体扫时刻</span>
+    <span><b>拖动</b> 旋转视角</span>
+    <span><b>滚轮</b> 缩放</span>
+  </div>
+</div>
+
+<div class="footer-note">
+  <p>覆盖这次EF-4级龙卷（2023-03-25，Rolling Fork, MS）整个生命史，从原始14个体扫中每隔一个取一帧
+  （约12分钟一帧，共7帧），是为了控制页面里需要一次性构建的三维网格数量，避免加载过慢。
+  每一帧都先在全域内定位风暴核心，再以核心为中心裁剪出精细体积做体绘制，
+  <b>坐标轴是相对风暴核心的相对位置（镜头跟随风暴移动），不是地图上的绝对坐标</b>——
+  这样能直接看到风暴结构本身随时间的变化（强度增强、对流塔抬升、核心形态演变），
+  而不必关心风暴整体在地图上平移了多远。定位算法在约01:54附近这一帧存在小幅
+  （约10余公里）跳动，是风暴临近其它对流单体、低层最强回波点位置不够稳定导致的，
+  不影响对结构演变整体趋势的判断。配色为经典NWS雷达回波色标，透明度随回波强度增大而增大。</p>
+</div>

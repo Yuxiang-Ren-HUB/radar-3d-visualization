@@ -1,0 +1,145 @@
+<style>
+  :root{
+    --bg:#0a0e14; --panel:#12181f; --border:#232b35;
+    --text:#d8e0e8; --text-muted:#6b7684;
+    --accent:#00d9ff; --accent-soft:#00d9ff17;
+    --warm:#ff8c3d; --warm-soft:#ff8c3d17;
+    --font-display:'Bahnschrift','Segoe UI Semibold','Segoe UI',sans-serif;
+    --font-body:'Segoe UI',system-ui,-apple-system,sans-serif;
+    --font-mono:'Consolas','SF Mono',Menlo,monospace;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#eef1f4; --panel:#ffffff; --border:#d7dde3;
+      --text:#141a20; --text-muted:#5b6672;
+      --accent:#0086a8; --accent-soft:#0086a80f;
+      --warm:#c4590f; --warm-soft:#c4590f10;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0e14; --panel:#12181f; --border:#232b35;
+    --text:#d8e0e8; --text-muted:#6b7684;
+    --accent:#00d9ff; --accent-soft:#00d9ff17;
+    --warm:#ff8c3d; --warm-soft:#ff8c3d17;
+  }
+  :root[data-theme="light"]{
+    --bg:#eef1f4; --panel:#ffffff; --border:#d7dde3;
+    --text:#141a20; --text-muted:#5b6672;
+    --accent:#0086a8; --accent-soft:#0086a80f;
+    --warm:#c4590f; --warm-soft:#c4590f10;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .topbar{
+    display:flex; align-items:baseline; justify-content:space-between;
+    flex-wrap:wrap; gap:12px;
+    padding:20px 28px; border-bottom:1px solid var(--border);
+    background:var(--panel);
+  }
+  .title-block{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+  h1{
+    font-family:var(--font-display); font-weight:700;
+    font-size:22px; margin:0; letter-spacing:.01em;
+  }
+  .subtitle{font-family:var(--font-mono); font-size:12.5px; color:var(--text-muted);}
+  .meta{
+    display:flex; gap:18px; flex-wrap:wrap;
+    font-family:var(--font-mono); font-size:12px; color:var(--text-muted);
+    font-variant-numeric:tabular-nums;
+  }
+  .meta b{color:var(--accent); font-weight:600;}
+
+  .caveat{
+    max-width:1400px; margin:16px auto 0; padding:0 18px;
+  }
+  .caveat-box{
+    background:var(--warm-soft); border:1px solid color-mix(in srgb, var(--warm) 40%, transparent);
+    border-radius:4px; padding:14px 18px;
+    font-size:13.5px; line-height:1.6; color:var(--text);
+  }
+  .caveat-box b{color:var(--warm);}
+
+  .stage{
+    padding:18px 18px 0;
+    max-width:1400px; margin:0 auto;
+  }
+  .plot-frame{
+    border:1px solid var(--border); border-radius:4px;
+    background:#0a0e14; overflow:hidden;
+  }
+  .legend-strip{
+    display:flex; align-items:center; gap:24px; justify-content:center;
+    padding:14px 0 4px; flex-wrap:wrap;
+    font-family:var(--font-mono); font-size:12px; color:var(--text-muted);
+  }
+  .legend-strip .swatch{display:inline-block; width:12px; height:12px; border-radius:2px; margin-right:6px; vertical-align:middle;}
+  .hint{
+    display:flex; gap:22px; flex-wrap:wrap; justify-content:center;
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);
+    padding:12px 0 26px;
+  }
+  .hint span{display:flex; align-items:center; gap:6px;}
+  .hint b{color:var(--warm); font-weight:600;}
+
+  .footer-note{
+    max-width:900px; margin:0 auto; padding:0 28px 40px;
+    font-size:13.5px; color:var(--text-muted); line-height:1.7;
+  }
+  .footer-note b{color:var(--text);}
+</style>
+
+<div class="topbar">
+  <div class="title-block">
+    <h1>径向速度"流场"可视化</h1>
+    <span class="subtitle">SINGLE-DOPPLER RADIAL VELOCITY · 3D VECTORS</span>
+  </div>
+  <div class="meta">
+    <span>个例 <b>Rolling Fork, MS</b></span>
+    <span>日期 <b>2023-03-25 01:30 UTC</b></span>
+    <span>雷达 <b>KDGX</b></span>
+    <span>箭头数 <b>1,322</b></span>
+  </div>
+</div>
+
+<div class="caveat">
+  <div class="caveat-box">
+    ⚠️ <b>数据限制说明</b>：单部雷达（单多普勒）只能测到目标沿雷达波束方向的速度分量（径向速度），
+    测不到切向、垂直方向的真实风速分量。这里展示的是把每个格点的径向速度还原成"雷达→格点连线方向"
+    的三维箭头，<b>不是物理意义上完整、真实的三维风场</b>。图中蓝色（朝向雷达）和橙色（远离雷达）
+    在风暴东西两侧呈现的分离，是径向速度"对"的经典特征，<b>提示</b>可能存在旋转，但不能直接等同于
+    已经重建出真实的水平风场结构。
+  </div>
+</div>
+
+<div class="stage">
+  <div class="plot-frame">
+    {{PLOTLY_FRAGMENT}}
+  </div>
+  <div class="legend-strip">
+    <span><span class="swatch" style="background:#1e9bff;"></span>朝向雷达（负速度）</span>
+    <span><span class="swatch" style="background:#ff5a1e;"></span>远离雷达（正速度）</span>
+    <span><span class="swatch" style="background:#ffffff;"></span>雷达站位置</span>
+  </div>
+  <div class="hint">
+    <span><b>拖动</b> 旋转视角</span>
+    <span><b>滚轮</b> 缩放</span>
+    <span><b>右键拖动</b> 平移</span>
+    <span><b>双击</b> 重置视角</span>
+  </div>
+</div>
+
+<div class="footer-note">
+  <p>箭头方向沿"雷达→格点"连线，长度/颜色深浅对应径向速度大小；只保留了|径向速度|≥8m/s
+  且反射率≥10dBZ的格点，避免弱信号/噪声淹没画面。背景叠加了一层很淡的反射率体绘制作为风暴结构参考
+  （经典NWS色标，透明度很低）。可以看到风暴西侧（蓝色，朝向雷达）与东侧（橙色，远离雷达）的速度
+  分离，这种空间型态是气象上判断中气旋/旋转的标准依据之一，但受限于单雷达只有径向分量，
+  无法像双雷达反演或数值模式那样给出完整、可信的三维风矢量。数据来自 <b>NEXRAD KDGX</b>
+  站点原始体扫（Level II），径向速度经 Py-ART 区域法(region-based)退模糊处理。</p>
+</div>

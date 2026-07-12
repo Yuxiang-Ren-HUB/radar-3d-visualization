@@ -1,0 +1,143 @@
+<style>
+  :root{
+    --bg:#0a0e14; --panel:#12181f; --border:#232b35;
+    --text:#d8e0e8; --text-muted:#6b7684;
+    --accent:#00d9ff; --accent-soft:#00d9ff17;
+    --warm:#ff8c3d; --warm-soft:#ff8c3d17;
+    --font-display:'Bahnschrift','Segoe UI Semibold','Segoe UI',sans-serif;
+    --font-body:'Segoe UI',system-ui,-apple-system,sans-serif;
+    --font-mono:'Consolas','SF Mono',Menlo,monospace;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#eef1f4; --panel:#ffffff; --border:#d7dde3;
+      --text:#141a20; --text-muted:#5b6672;
+      --accent:#0086a8; --accent-soft:#0086a80f;
+      --warm:#c4590f; --warm-soft:#c4590f10;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0e14; --panel:#12181f; --border:#232b35;
+    --text:#d8e0e8; --text-muted:#6b7684;
+    --accent:#00d9ff; --accent-soft:#00d9ff17;
+    --warm:#ff8c3d; --warm-soft:#ff8c3d17;
+  }
+  :root[data-theme="light"]{
+    --bg:#eef1f4; --panel:#ffffff; --border:#d7dde3;
+    --text:#141a20; --text-muted:#5b6672;
+    --accent:#0086a8; --accent-soft:#0086a80f;
+    --warm:#c4590f; --warm-soft:#c4590f10;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .topbar{
+    display:flex; align-items:baseline; justify-content:space-between;
+    flex-wrap:wrap; gap:12px;
+    padding:20px 28px; border-bottom:1px solid var(--border);
+    background:var(--panel);
+  }
+  .title-block{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+  h1{
+    font-family:var(--font-display); font-weight:700;
+    font-size:22px; margin:0; letter-spacing:.01em;
+  }
+  .subtitle{font-family:var(--font-mono); font-size:12.5px; color:var(--text-muted);}
+  .meta{
+    display:flex; gap:18px; flex-wrap:wrap;
+    font-family:var(--font-mono); font-size:12px; color:var(--text-muted);
+    font-variant-numeric:tabular-nums;
+  }
+  .meta b{color:var(--accent); font-weight:600;}
+
+  .tabbar{
+    display:flex; gap:8px; padding:14px 28px 0; max-width:1400px; margin:0 auto;
+  }
+  .tab{
+    font-family:var(--font-mono); font-size:12px; padding:8px 16px;
+    border:1px solid var(--border); border-bottom:none; border-radius:4px 4px 0 0;
+    color:var(--text-muted); text-decoration:none;
+  }
+  .tab.active{color:var(--accent); background:var(--panel); border-color:var(--accent);}
+
+  .stage{
+    padding:0 18px 0;
+    max-width:1400px; margin:0 auto;
+  }
+  .plot-frame{
+    border:1px solid var(--border); border-radius:4px;
+    background:#0a0e14; overflow:hidden;
+  }
+  .hint{
+    display:flex; gap:22px; flex-wrap:wrap; justify-content:center;
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);
+    padding:12px 0 26px;
+  }
+  .hint span{display:flex; align-items:center; gap:6px;}
+  .hint b{color:var(--warm); font-weight:600;}
+
+  .legend-strip{
+    display:flex; align-items:center; gap:14px; justify-content:center;
+    padding:14px 0 4px; flex-wrap:wrap;
+  }
+  .legend-strip .ramp{
+    width:220px; height:10px; border-radius:5px;
+    background:linear-gradient(90deg,
+      rgba(0,59,77,0.2) 0%, rgba(0,163,196,0.5) 35%,
+      rgba(0,217,255,0.75) 60%, rgba(255,184,77,0.88) 80%, rgba(255,140,61,0.9) 100%);
+    border:1px solid var(--border);
+  }
+  .legend-strip span{font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);}
+
+  .footer-note{
+    max-width:900px; margin:0 auto; padding:0 28px 40px;
+    font-size:13.5px; color:var(--text-muted); line-height:1.7;
+  }
+  .footer-note b{color:var(--text);}
+</style>
+
+<div class="topbar">
+  <div class="title-block">
+    <h1>超级单体三维结构 · 粒子云</h1>
+    <span class="subtitle">SUPERCELL 3D REFLECTIVITY · PARTICLE CLOUD RENDER</span>
+  </div>
+  <div class="meta">
+    <span>个例 <b>Rolling Fork, MS</b></span>
+    <span>日期 <b>2023-03-25 01:30 UTC</b></span>
+    <span>雷达 <b>KDGX</b></span>
+    <span>粒子数 <b>120,000</b></span>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="plot-frame">
+    {{PLOTLY_FRAGMENT}}
+  </div>
+  <div class="legend-strip">
+    <span>10 dBZ（稀疏·透明）</span>
+    <div class="ramp"></div>
+    <span>60+ dBZ（稠密·不透明）</span>
+  </div>
+  <div class="hint">
+    <span><b>拖动</b> 旋转视角</span>
+    <span><b>滚轮</b> 缩放</span>
+    <span><b>右键拖动</b> 平移</span>
+    <span><b>双击</b> 重置视角</span>
+    <span><b>悬停</b> 查看单点dBZ</span>
+  </div>
+</div>
+
+<div class="footer-note">
+  <p>与等值面版本不同，这里把体扫网格里每个格点渲染成一个"粒子"：先按反射率强度做<b>重要性抽稀</b>
+  ——弱回波(10dBZ附近)只有约12%的概率被保留，强回波(60dBZ以上)几乎全部保留，
+  同一强度阈值以上的候选点从约39万个抽稀到约12万个；每个粒子的<b>颜色和透明度</b>也随dBZ值连续变化
+  （弱回波偏冷色调、接近透明，强回波偏暖色调、接近不透明）。这样风暴核心呈现出稠密不透明的"实体"感，
+  外围回波则像稀薄的雾气一样自然过渡，比单一阈值的等值面更接近真实雷达回波云的观感。
+  数据来自 <b>NEXRAD KDGX</b> 站点原始体扫（Level II），用 Py-ART 网格化后逐点渲染。</p>
+</div>

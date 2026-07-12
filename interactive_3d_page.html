@@ -1,0 +1,111 @@
+<style>
+  :root{
+    --bg:#0a0e14; --panel:#12181f; --border:#232b35;
+    --text:#d8e0e8; --text-muted:#6b7684;
+    --accent:#00d9ff; --accent-soft:#00d9ff17;
+    --warm:#ff8c3d; --warm-soft:#ff8c3d17;
+    --font-display:'Bahnschrift','Segoe UI Semibold','Segoe UI',sans-serif;
+    --font-body:'Segoe UI',system-ui,-apple-system,sans-serif;
+    --font-mono:'Consolas','SF Mono',Menlo,monospace;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#eef1f4; --panel:#ffffff; --border:#d7dde3;
+      --text:#141a20; --text-muted:#5b6672;
+      --accent:#0086a8; --accent-soft:#0086a80f;
+      --warm:#c4590f; --warm-soft:#c4590f10;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0e14; --panel:#12181f; --border:#232b35;
+    --text:#d8e0e8; --text-muted:#6b7684;
+    --accent:#00d9ff; --accent-soft:#00d9ff17;
+    --warm:#ff8c3d; --warm-soft:#ff8c3d17;
+  }
+  :root[data-theme="light"]{
+    --bg:#eef1f4; --panel:#ffffff; --border:#d7dde3;
+    --text:#141a20; --text-muted:#5b6672;
+    --accent:#0086a8; --accent-soft:#0086a80f;
+    --warm:#c4590f; --warm-soft:#c4590f10;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .topbar{
+    display:flex; align-items:baseline; justify-content:space-between;
+    flex-wrap:wrap; gap:12px;
+    padding:20px 28px; border-bottom:1px solid var(--border);
+    background:var(--panel);
+  }
+  .title-block{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+  h1{
+    font-family:var(--font-display); font-weight:700;
+    font-size:22px; margin:0; letter-spacing:.01em;
+  }
+  .subtitle{font-family:var(--font-mono); font-size:12.5px; color:var(--text-muted);}
+  .meta{
+    display:flex; gap:18px; flex-wrap:wrap;
+    font-family:var(--font-mono); font-size:12px; color:var(--text-muted);
+    font-variant-numeric:tabular-nums;
+  }
+  .meta b{color:var(--accent); font-weight:600;}
+
+  .stage{
+    padding:18px 18px 0;
+    max-width:1400px; margin:0 auto;
+  }
+  .plot-frame{
+    border:1px solid var(--border); border-radius:4px;
+    background:#0a0e14; overflow:hidden;
+  }
+  .hint{
+    display:flex; gap:22px; flex-wrap:wrap; justify-content:center;
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);
+    padding:12px 0 26px;
+  }
+  .hint span{display:flex; align-items:center; gap:6px;}
+  .hint b{color:var(--warm); font-weight:600;}
+
+  .footer-note{
+    max-width:900px; margin:0 auto; padding:0 28px 40px;
+    font-size:13.5px; color:var(--text-muted); line-height:1.7;
+  }
+  .footer-note b{color:var(--text);}
+</style>
+
+<div class="topbar">
+  <div class="title-block">
+    <h1>超级单体三维反射率结构</h1>
+    <span class="subtitle">SUPERCELL 3D REFLECTIVITY ISOSURFACE · INTERACTIVE</span>
+  </div>
+  <div class="meta">
+    <span>个例 <b>Rolling Fork, MS</b></span>
+    <span>日期 <b>2023-03-25 01:30 UTC</b></span>
+    <span>雷达 <b>KDGX</b></span>
+    <span>等值面 <b>35 dBZ</b></span>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="plot-frame">
+    {{PLOTLY_FRAGMENT}}
+  </div>
+  <div class="hint">
+    <span><b>拖动</b> 旋转视角</span>
+    <span><b>滚轮</b> 缩放</span>
+    <span><b>右键拖动</b> 平移</span>
+    <span><b>双击</b> 重置视角</span>
+  </div>
+</div>
+
+<div class="footer-note">
+  <p>颜色编码高度（青色=低层，暖橙色=高层）。可以看到风暴主体从地面延伸到约13-14km高度的高耸对流塔，
+  西北侧还有一个较矮的次单体。数据来自 <b>NEXRAD KDGX</b> 站点原始体扫（Level II），
+  用 Py-ART 网格化 + marching cubes 算法提取等值面。</p>
+</div>

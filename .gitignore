@@ -6,6 +6,8 @@ plotly_fragment*.html
 # well over GitHub's per-file comfort zone -- the *.png/*.py results/scripts are what matter)
 _radar_hrrr_blend_cache.npz
 radar_hrrr_stepsblend_ensemble*.npy
+_radar_hrrr_blend_kokx_cache.npz
+radar_hrrr_stepsblend_kokx_ensemble*.npy
 case_*/dl_dataset_cache.npz
 __pycache__/
 tmp/
